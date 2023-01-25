@@ -1,16 +1,15 @@
 
 #include <stdint.h> 
+#include <stdbool.h>
 #include "header_2.h" 
-
-/*
-This part of the lab (task 1) had 2 main goals- 1) turn on the lights in a specific pattern
-depending on the timers instead of delays
-*/
 
 enum TL_States { TL_init, TL_stop, TL_warn, TL_go } TL_State;
 
 int main(void)
 {
+  volatile unsigned short delay = 0;
+  delay++; // Delay 2 more cycles before access Timer registers
+  delay++; // Refer to Page. 756 of Datasheet for info
   timer_initc();
   led_init();
   TL_State = TL_init;
@@ -33,45 +32,13 @@ void timer_initc() {
 }
 
 void led_init() {
-  volatile unsigned short delay = 0;
-  delay++; // Delay 2 more cycles before access Timer registers
-  delay++; // Refer to Page. 756 of Datasheet for info
-
+  RCGCGPIO  |= 0xFFFF;
   GPIOAMSEL_E &= ~0x1F;          // disable analog function of PE0/1/2/3/4
   GPIOAFSEL_E &= ~0x1F;          // set PE/1/2/3/4 regular port function 
   GPIODIR_E |= 0x1C;             // set PE2/3/4 to output 
   GPIODIR_E &= ~0x3;             // set PE0/1 to input
   GPIODEN_E |= 0x1F;             // enable digital output on PE0/1/2/3/4
 }
-
-
-void polling_GPIO() {
-  int counter = 0;
-  while (1) {
-    if (GPTMRIS_0 & 0x1) { // checking if flag is true
-      GPTMICR_0 |= 0x1; // clearing flag
-      if (counter == 0) {
-          Red_on();
-      } else if (counter == 1) {
-          Red_off();
-      } else if (counter == 2) {
-          Yellow_on();
-      } else if (counter == 3) {
-          Yellow_off();
-      } else if (counter == 4) {
-          Green_on();
-      } else if (counter == 5) {
-          Green_off();
-      }
-      if (counter == 5) {
-        counter = 0;
-      } else {
-        counter += 1;
-      }
-    }
-  }
-}
-
 
 void Red_on(void) 
 { 
@@ -118,18 +85,37 @@ bool system_button_pressed() {
   return false;
 }
 
-bool pedestrian_button_pressed() {
+int five_seconds() {
   int count = 0;
-  while (GPIODATA_E & 0x2) {
+  int sys = 0;
+  int ped = 0;
+  while (count < 5) {
+    while (GPIODATA_E & 0x1) {
+      if (GPTMRIS_0 & 0x1) {
+        GPTMICR_0 |= 0x1;
+        count +=1;
+        sys +=1;
+      }
+      if (sys == 2) {
+        return 1;
+      }
+    }
+    while (GPIODATA_E & 0x2) {
+      if (GPTMRIS_0 & 0x1) {
+        GPTMICR_0 |= 0x1;
+        count +=1;
+        ped +=1;
+      }
+      if (ped == 2) {
+        return 2;
+      }
+    }
     if (GPTMRIS_0 & 0x1) {
         GPTMICR_0 |= 0x1;
         count +=1;
     }
-    if (count == 2) {
-        return true;
-    }
   }
-  return false;
+  return 0; 
 }
 
 void Traffic_Light_System()
@@ -142,19 +128,19 @@ void Traffic_Light_System()
         }
        break;
      case TL_go:
-        bool system_flag = system_button_pressed();
-        bool pedestrian_flag = pedestrian_button_pressed();
-        if (system_flag) {
+        int resultg = five_seconds();
+        if (resultg == 1) {
            TL_State = TL_init;
         }
-        else if (pedestrian_button_pressed) {
+        else if (resultg == 2) {
            TL_State = TL_warn;
         } else {
           TL_State = TL_stop;
         }
         break;
      case TL_warn:
-        if (GPIODATA_E & 0x1) {
+        int resultw = five_seconds();
+        if (resultw == 1) {
           TL_State = TL_init;
         }
         else {
@@ -162,7 +148,8 @@ void Traffic_Light_System()
         }
         break;
      case TL_stop:
-        if (GPIODATA_E & 0x1) {
+       int results = five_seconds();
+        if (results == 1) {
            TL_State = TL_init;
         }
         else {

@@ -1,17 +1,23 @@
 ###############################################################################
 #
-# IAR ELF Linker V8.11.3.13950/W32 for ARM                24/Jan/2023  20:32:56
+# IAR ELF Linker V8.11.3.13950/W32 for ARM                24/Jan/2023  23:54:31
 # Copyright 2007-2017 IAR Systems AB.
 #
-#    Output file  =  C:\first_project_474\Lab 2\Task 1b\Debug\Exe\task2.out
-#    Map file     =  C:\first_project_474\Lab 2\Task 1b\Debug\List\task2.map
+#    Output file  =  
+#        C:\Users\fishtail\Desktop\EE 474\Lab
+#        2\ee474lab2task2\Debug\Exe\task2.out
+#    Map file     =  
+#        C:\Users\fishtail\Desktop\EE 474\Lab
+#        2\ee474lab2task2\Debug\List\task2.map
 #    Command line =  
-#        -f C:\Users\khormnic\AppData\Local\Temp\EW9125.tmp
-#        ("C:\first_project_474\Lab 2\Task 1b\Debug\Obj\main.o" -o
-#        "C:\first_project_474\Lab 2\Task 1b\Debug\Exe\task2.out" --redirect
+#        -f C:\Users\fishtail\AppData\Local\Temp\EW4828.tmp
+#        ("C:\Users\fishtail\Desktop\EE 474\Lab
+#        2\ee474lab2task2\Debug\Obj\main.o" -o "C:\Users\fishtail\Desktop\EE
+#        474\Lab 2\ee474lab2task2\Debug\Exe\task2.out" --redirect
 #        _Printf=_PrintfFullNoMb --redirect _Scanf=_ScanfFullNoMb --map
-#        "C:\first_project_474\Lab 2\Task 1b\Debug\List\task2.map" --config
-#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        "C:\Users\fishtail\Desktop\EE 474\Lab
+#        2\ee474lab2task2\Debug\List\task2.map" --config "C:\Program Files
+#        (x86)\IAR Systems\Embedded Workbench
 #        8.0\arm\config\linker\TexasInstruments\TM4C1294NC.icf" --semihosting
 #        --entry __iar_program_start --vfe --text_out locale)
 #
@@ -46,28 +52,47 @@ define block HEAP with size = 64K, alignment = 8 { };
 "P2":  place in [from 0x20000000 to 0x2003ffff] {
           rw, block CSTACK, block HEAP };
 
-  Section   Kind        Address    Size  Object
-  -------   ----        -------    ----  ------
-"A0":                              0x40
-  .intvec   ro code  0x00000000    0x40  vector_table_M.o [5]
-                   - 0x00000040    0x40
+  Section          Kind        Address    Size  Object
+  -------          ----        -------    ----  ------
+"A0":                                     0x40
+  .intvec          ro code  0x00000000    0x40  vector_table_M.o [5]
+                          - 0x00000040    0x40
 
-"P1":                             0x21c
-  .text     ro code  0x00000040   0x1a8  main.o [1]
-  .text     ro code  0x000001e8    0x22  fpinit_M.o [4]
-  .text     ro code  0x0000020a     0x2  vector_table_M.o [5]
-  .text     ro code  0x0000020c    0x1a  cmain.o [5]
-  .text     ro code  0x00000226     0x4  low_level_init.o [3]
-  .text     ro code  0x0000022a     0x4  exit.o [3]
-  .text     ro code  0x00000230     0xa  cexit.o [5]
-  .text     ro code  0x0000023c    0x14  exit.o [6]
-  .text     ro code  0x00000250     0xc  cstartup_M.o [5]
-                   - 0x0000025c   0x21c
+"P1":                                    0x3c4
+  .text            ro code  0x00000040   0x2d4  main.o [1]
+  .text            ro code  0x00000314    0x40  zero_init3.o [5]
+  .text            ro code  0x00000354    0x28  data_init.o [5]
+  .text            ro code  0x0000037c    0x22  fpinit_M.o [4]
+  .iar.init_table  const    0x000003a0    0x10  - Linker created -
+  .text            ro code  0x000003b0     0x2  vector_table_M.o [5]
+  .text            ro code  0x000003b4    0x1a  cmain.o [5]
+  .text            ro code  0x000003ce     0x4  low_level_init.o [3]
+  .text            ro code  0x000003d2     0x4  exit.o [3]
+  .text            ro code  0x000003d8     0xa  cexit.o [5]
+  .text            ro code  0x000003e4    0x14  exit.o [6]
+  .text            ro code  0x000003f8     0xc  cstartup_M.o [5]
+  .rodata          const    0x00000404     0x0  zero_init3.o [5]
+                          - 0x00000404   0x3c4
 
-"P2":                            0x8000
-  CSTACK             0x20000000  0x8000  <Block>
-    CSTACK  uninit   0x20000000  0x8000  <Block tail>
-                   - 0x20008000  0x8000
+"P2", part 1 of 2:                         0x4
+  .bss             zero     0x20000000     0x1  main.o [1]
+                          - 0x20000001     0x1
+
+"P2", part 2 of 2:                      0x8000
+  CSTACK                    0x20000008  0x8000  <Block>
+    CSTACK         uninit   0x20000008  0x8000  <Block tail>
+                          - 0x20008008  0x8000
+
+
+*******************************************************************************
+*** INIT TABLE
+***
+
+          Address     Size
+          -------     ----
+Zero (__iar_zero_init3)
+    1 destination range, total size 0x1:
+          0x20000000   0x1
 
 
 
@@ -75,45 +100,47 @@ define block HEAP with size = 64K, alignment = 8 { };
 *** MODULE SUMMARY
 ***
 
-    Module            ro code  rw data
-    ------            -------  -------
-C:\first_project_474\Lab 2\Task 1b\Debug\Obj: [1]
-    main.o                424
-    ----------------------------------
-    Total:                424
+    Module            ro code  ro data  rw data
+    ------            -------  -------  -------
+C:\Users\fishtail\Desktop\EE 474\Lab 2\ee474lab2task2\Debug\Obj: [1]
+    main.o                724                 1
+    -------------------------------------------
+    Total:                724                 1
 
 command line: [2]
-    ----------------------------------
+    -------------------------------------------
     Total:
 
 dl7M_tln.a: [3]
     exit.o                  4
     low_level_init.o        4
-    ----------------------------------
+    -------------------------------------------
     Total:                  8
 
 m7M_tls.a: [4]
     fpinit_M.o             34
-    ----------------------------------
+    -------------------------------------------
     Total:                 34
 
 rt7M_tl.a: [5]
     cexit.o                10
     cmain.o                26
     cstartup_M.o           12
+    data_init.o            40
     vector_table_M.o       66
-    ----------------------------------
-    Total:                114
+    zero_init3.o           64
+    -------------------------------------------
+    Total:                218
 
 shb_l.a: [6]
     exit.o                 20
-    ----------------------------------
+    -------------------------------------------
     Total:                 20
 
-    Gaps                    4
-    Linker created              32 768
---------------------------------------
-    Grand Total:          604   32 768
+    Gaps                    6        2
+    Linker created                  16   32 768
+-----------------------------------------------
+    Grand Total:        1 010       18   32 769
 
 
 *******************************************************************************
@@ -122,44 +149,52 @@ shb_l.a: [6]
 
 Entry                      Address  Size  Type      Object
 -----                      -------  ----  ----      ------
-?main                   0x0000020d        Code  Gb  cmain.o [5]
-CSTACK$$Base            0x20000000         --   Gb  - Linker created -
-CSTACK$$Limit           0x20008000         --   Gb  - Linker created -
-Green_off               0x000001a7   0xe  Code  Gb  main.o [1]
-Green_on                0x00000199   0xe  Code  Gb  main.o [1]
-Red_off                 0x0000016f   0xe  Code  Gb  main.o [1]
-Red_on                  0x00000161   0xe  Code  Gb  main.o [1]
-Region$$Table$$Base     0x00000000         --   Gb  - Linker created -
-Region$$Table$$Limit    0x00000000         --   Gb  - Linker created -
-Yellow_off              0x0000018b   0xe  Code  Gb  main.o [1]
-Yellow_on               0x0000017d   0xe  Code  Gb  main.o [1]
-__cmain                 0x0000020d        Code  Gb  cmain.o [5]
-__exit                  0x0000023d  0x14  Code  Gb  exit.o [6]
-__iar_init_vfp          0x000001e9        Code  Gb  fpinit_M.o [4]
-__iar_program_start     0x00000251        Code  Gb  cstartup_M.o [5]
+.iar.init_table$$Base   0x000003a0         --   Gb  - Linker created -
+.iar.init_table$$Limit  0x000003b0         --   Gb  - Linker created -
+?main                   0x000003b5        Code  Gb  cmain.o [5]
+CSTACK$$Base            0x20000008         --   Gb  - Linker created -
+CSTACK$$Limit           0x20008008         --   Gb  - Linker created -
+Green_off               0x00000159   0xe  Code  Gb  main.o [1]
+Green_on                0x0000014b   0xe  Code  Gb  main.o [1]
+Red_off                 0x00000121   0xe  Code  Gb  main.o [1]
+Red_on                  0x00000113   0xe  Code  Gb  main.o [1]
+Region$$Table$$Base     0x000003a0         --   Gb  - Linker created -
+Region$$Table$$Limit    0x000003b0         --   Gb  - Linker created -
+TL_State                0x20000000   0x1  Data  Gb  main.o [1]
+Traffic_Light_System    0x0000020d  0xcc  Code  Gb  main.o [1]
+Yellow_off              0x0000013d   0xe  Code  Gb  main.o [1]
+Yellow_on               0x0000012f   0xe  Code  Gb  main.o [1]
+__cmain                 0x000003b5        Code  Gb  cmain.o [5]
+__exit                  0x000003e5  0x14  Code  Gb  exit.o [6]
+__iar_data_init3        0x00000355  0x28  Code  Gb  data_init.o [5]
+__iar_init_vfp          0x0000037d        Code  Gb  fpinit_M.o [4]
+__iar_program_start     0x000003f9        Code  Gb  cstartup_M.o [5]
 __iar_systems$$module {Abs}
                         0x00000001        Data  Gb  command line/config [2]
-__low_level_init        0x00000227   0x4  Code  Gb  low_level_init.o [3]
+__iar_zero_init3        0x00000315  0x40  Code  Gb  zero_init3.o [5]
+__low_level_init        0x000003cf   0x4  Code  Gb  low_level_init.o [3]
 __vector_table          0x00000000        Data  Gb  vector_table_M.o [5]
-_call_main              0x00000219        Code  Gb  cmain.o [5]
-_exit                   0x00000231        Code  Gb  cexit.o [5]
-_main                   0x00000223        Code  Gb  cmain.o [5]
-exit                    0x0000022b   0x4  Code  Gb  exit.o [3]
-led_init                0x000000a7  0x5c  Code  Gb  main.o [1]
-main                    0x00000041  0x12  Code  Gb  main.o [1]
-polling_GPIO            0x00000103  0x5e  Code  Gb  main.o [1]
-timer_initc             0x00000053  0x54  Code  Gb  main.o [1]
+_call_main              0x000003c1        Code  Gb  cmain.o [5]
+_exit                   0x000003d9        Code  Gb  cexit.o [5]
+_main                   0x000003cb        Code  Gb  cmain.o [5]
+exit                    0x000003d3   0x4  Code  Gb  exit.o [3]
+five_seconds            0x00000193  0x7a  Code  Gb  main.o [1]
+led_init                0x000000c5  0x4e  Code  Gb  main.o [1]
+main                    0x00000041  0x30  Code  Gb  main.o [1]
+system_button_pressed   0x00000167  0x2c  Code  Gb  main.o [1]
+timer_initc             0x00000071  0x54  Code  Gb  main.o [1]
 
 
-[1] = C:\first_project_474\Lab 2\Task 1b\Debug\Obj
+[1] = C:\Users\fishtail\Desktop\EE 474\Lab 2\ee474lab2task2\Debug\Obj
 [2] = command line
 [3] = dl7M_tln.a
 [4] = m7M_tls.a
 [5] = rt7M_tl.a
 [6] = shb_l.a
 
-     604 bytes of readonly  code memory
-  32 768 bytes of readwrite data memory
+   1 010 bytes of readonly  code memory
+      18 bytes of readonly  data memory
+  32 769 bytes of readwrite data memory
 
 Errors: none
 Warnings: none

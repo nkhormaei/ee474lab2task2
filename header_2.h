@@ -35,8 +35,6 @@ void led_init();
 // Sets up timer configuration
 void timer_initc();
 
-void polling_GPIO();
-
 // turn on LED connected to PE2 
 void Red_on(void);
  
@@ -54,6 +52,10 @@ void Green_on(void);
 
 // turn off LED connected to PE4 
 void Green_off(void); 
+
+bool system_button_pressed();
+
+int five_seconds();
 
 // Implementation for the traffic light FSM
 void Traffic_Light_System();

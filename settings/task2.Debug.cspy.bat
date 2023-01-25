@@ -25,7 +25,7 @@ if not "%~1" == "" goto debugFile
 
 @echo on 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\common\bin\cspybat" -f "C:\first_project_474\Lab 2\Task 1b\settings\task2.Debug.general.xcl" --backend -f "C:\first_project_474\Lab 2\Task 1b\settings\task2.Debug.driver.xcl" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\common\bin\cspybat" -f "C:\Users\fishtail\Desktop\EE 474\Lab 2\ee474lab2task2\settings\task2.Debug.general.xcl" --backend -f "C:\Users\fishtail\Desktop\EE 474\Lab 2\ee474lab2task2\settings\task2.Debug.driver.xcl" 
 
 @echo off 
 goto end 
@@ -34,7 +34,7 @@ goto end
 
 @echo on 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\common\bin\cspybat" -f "C:\first_project_474\Lab 2\Task 1b\settings\task2.Debug.general.xcl" "--debug_file=%~1" --backend -f "C:\first_project_474\Lab 2\Task 1b\settings\task2.Debug.driver.xcl" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\common\bin\cspybat" -f "C:\Users\fishtail\Desktop\EE 474\Lab 2\ee474lab2task2\settings\task2.Debug.general.xcl" "--debug_file=%~1" --backend -f "C:\Users\fishtail\Desktop\EE 474\Lab 2\ee474lab2task2\settings\task2.Debug.driver.xcl" 
 
 @echo off 
 :end
