@@ -2,8 +2,7 @@
  * Sidharth Daga, Nick Khormaei
  * 1964629, 2033863
  * 1/24/23
- * This header file provides method declarations for necessary functionality in
- * implementing the GPIO addresses for using Port F, N and J 
+ * 
  */ 
 
 #ifndef __HEADER1_H__ 
@@ -53,8 +52,15 @@ void Green_on(void);
 // turn off LED connected to PE4 
 void Green_off(void); 
 
+// Returns true if system on/off button has been pressed for two seconds
 bool system_button_pressed();
 
+// delay 5 seconds before switching states while also monitoring
+// for system or pedestrian button pressed
+// returns 0 if neither pedestrianor system button were pressed for
+// two seconds, returns 1 if the system button was pressed for
+// two seconds, returns 2 if the pedestrian button was pressed
+// for two seconds
 int five_seconds();
 
 // Implementation for the traffic light FSM

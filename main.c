@@ -1,5 +1,10 @@
-
-#include <stdint.h> 
+/* 
+ * Sidharth Daga, Nick Khormaei
+ * 1964629, 2033863
+ * 1/24/23
+ * 
+ */ 
+#include <stdint.h>
 #include <stdbool.h>
 #include "header_2.h" 
 
@@ -7,9 +12,6 @@ enum TL_States { TL_init, TL_stop, TL_warn, TL_go } TL_State;
 
 int main(void)
 {
-  volatile unsigned short delay = 0;
-  delay++; // Delay 2 more cycles before access Timer registers
-  delay++; // Refer to Page. 756 of Datasheet for info
   timer_initc();
   led_init();
   TL_State = TL_init;
@@ -20,6 +22,9 @@ int main(void)
 }
 
 void timer_initc() {
+  volatile unsigned short delay = 0;
+  delay++; // Delay 2 more cycles before access Timer registers
+  delay++; // Refer to Page. 756 of Datasheet for info
   RCGCTIMER |= 0x1; // Enable the appropriate TIMERn bit in the RCGCTIMER register
   GPTMCTL_0 &= ~0x1; // Disable the timer using the GPTMCTL register
   GPTMCFG_0 = 0x00; // Write 0x0000.0000 to the GPTMCFG register, 
@@ -128,19 +133,19 @@ void Traffic_Light_System()
         }
        break;
      case TL_go:
-        int resultg = five_seconds();
-        if (resultg == 1) {
+        int result_go = five_seconds();
+        if (result_go == 1) {
            TL_State = TL_init;
         }
-        else if (resultg == 2) {
+        else if (result_go == 2) {
            TL_State = TL_warn;
         } else {
           TL_State = TL_stop;
         }
         break;
      case TL_warn:
-        int resultw = five_seconds();
-        if (resultw == 1) {
+        int result_warn = five_seconds();
+        if (result_warn == 1) {
           TL_State = TL_init;
         }
         else {
@@ -148,8 +153,8 @@ void Traffic_Light_System()
         }
         break;
      case TL_stop:
-       int results = five_seconds();
-        if (results == 1) {
+       int result_stop = five_seconds();
+        if (result_stop == 1) {
            TL_State = TL_init;
         }
         else {
@@ -185,5 +190,4 @@ void Traffic_Light_System()
         Green_off();
         break;
    } // State actions
-   
 }
